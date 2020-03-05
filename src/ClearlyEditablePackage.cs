@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Matt Lacey Ltd. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.VisualStudio.ComponentModelHost;
@@ -14,9 +17,20 @@ namespace ClearlyEditable
     [ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(ClearlyEditablePackage.PackageGuidString)]
+    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
+    [ProvideOptionPage(typeof(OptionPageGrid), "Clearly Editable", "General", 0, 0, true)]
+    [ProvideProfileAttribute(typeof(OptionPageGrid), "Clearly Editable", "General", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
     public sealed class ClearlyEditablePackage : AsyncPackage
     {
         public const string PackageGuidString = "aaa6f2f0-3c79-4d1f-95e4-3c868411475f";
+
+        public OptionPageGrid Options
+        {
+            get
+            {
+                return (OptionPageGrid)this.GetDialogPage(typeof(OptionPageGrid));
+            }
+        }
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
