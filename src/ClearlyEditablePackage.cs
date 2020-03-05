@@ -38,6 +38,7 @@ namespace ClearlyEditable
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
+            // TODO: force refresh of background colors when package loads
             await this.SetUpRunningDocumentTableEventsAsync(cancellationToken).ConfigureAwait(false);
         }
 

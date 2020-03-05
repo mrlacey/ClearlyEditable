@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Matt Lacey Ltd. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
 using System.ComponentModel;
 using Microsoft.VisualStudio.Shell;
 
@@ -42,5 +43,17 @@ namespace ClearlyEditable
         [DisplayName("Background Opacity %")]
         [Description("The opacity of the background (as a percentage)")]
         public int GeneratedOpacity { get; set; } = 10;
+
+        protected override void OnApply(PageApplyEventArgs e)
+        {
+            // TODO: refresh any open documents
+            base.OnApply(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            // TODO: refresh any open documents
+            base.OnClosed(e);
+        }
     }
 }

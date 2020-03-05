@@ -46,6 +46,7 @@ namespace ClearlyEditable
 
         public int OnBeforeDocumentWindowShow(uint docCookie, int fFirstShow, IVsWindowFrame pFrame)
         {
+            // TODO: remove any background if anything switched to disabled
             if (this.package.Options.IsEnabled)
             {
                 SolidColorBrush bg = null;
