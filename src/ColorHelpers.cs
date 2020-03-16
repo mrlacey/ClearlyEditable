@@ -36,7 +36,23 @@ namespace ClearlyEditable
                 color = GetHexForNamedColor(color.Trim());
             }
 
-            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color.Trim())) { Opacity = opacity };
+            Color parsedColor;
+
+            try
+            {
+                parsedColor = (Color)ColorConverter.ConvertFromString(color.Trim());
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+                GeneralOutputPane.Instance.Write($"Unable to translate '{color}' into a color.");
+
+                parsedColor = Colors.Transparent;
+            }
+
+            return new SolidColorBrush(parsedColor) { Opacity = opacity };
         }
 
         public static string GetHexForNamedColor(string colorName)
