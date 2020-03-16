@@ -46,6 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ColorHelpers.cs" />
+    <Compile Include="GeneralOutputPane.cs" />
     <Compile Include="MyRunningDocTableEvents.cs" />
     <Compile Include="OptionPageGrid.cs">
       <SubType>Component</SubType>
