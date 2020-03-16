@@ -1,1 +1,12 @@
-# ClearlyEditable
+# Clearly Editable
+
+A Visual Studio 2019 extension to change the editor background color to show which documents can't or shouldn't be edited.
+
+![Example of the backgrounds set on different editor windows](./assets/example.png)
+
+In the above, the left-most editor window is a generated file, the middle editor is window is a read-only document, and the editor onthe right is for a regular, editable file.
+
+---
+You chose the background colors (including transparency) for files that are generated or read-only.
+
+![Options window](./assets/options.png)
