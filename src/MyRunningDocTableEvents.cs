@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Matt Lacey Ltd. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
@@ -12,11 +14,31 @@ namespace ClearlyEditable
 {
     internal class MyRunningDocTableEvents : IVsRunningDocTableEvents
     {
-        private readonly ClearlyEditablePackage package;
-        private readonly RunningDocumentTable runningDocumentTable;
-        private readonly IVsEditorAdaptersFactoryService editorAdaptersFactory;
+        private static MyRunningDocTableEvents instance;
 
-        public MyRunningDocTableEvents(ClearlyEditablePackage package, RunningDocumentTable runningDocumentTable, IVsEditorAdaptersFactoryService editorAdaptersFactory)
+        private ClearlyEditablePackage package;
+        private RunningDocumentTable runningDocumentTable;
+        private IVsEditorAdaptersFactoryService editorAdaptersFactory;
+        private Dictionary<uint, IVsWindowFrame> cache = new Dictionary<uint, IVsWindowFrame>();
+
+        public MyRunningDocTableEvents()
+        {
+        }
+
+        public static MyRunningDocTableEvents Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new MyRunningDocTableEvents();
+                }
+
+                return instance;
+            }
+        }
+
+        public void Initialize(ClearlyEditablePackage package, RunningDocumentTable runningDocumentTable, IVsEditorAdaptersFactoryService editorAdaptersFactory)
         {
             this.package = package;
             this.runningDocumentTable = runningDocumentTable;
@@ -43,7 +65,36 @@ namespace ClearlyEditable
             return VSConstants.S_OK;
         }
 
+        public void RefreshAll()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            foreach (var item in this.cache)
+            {
+                this.RefreshWindow(item.Key);
+            }
+        }
+
         public int OnBeforeDocumentWindowShow(uint docCookie, int fFirstShow, IVsWindowFrame pFrame)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            // Keep the cached frame reference up to date.
+            if (!this.cache.ContainsKey(docCookie))
+            {
+                this.cache.Add(docCookie, pFrame);
+            }
+            else
+            {
+                this.cache[docCookie] = pFrame;
+            }
+
+            this.RefreshWindow(docCookie);
+
+            return VSConstants.S_OK;
+        }
+
+        public void RefreshWindow(uint docCookie)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             SolidColorBrush bg = null;
@@ -91,7 +142,7 @@ namespace ClearlyEditable
                     }
                 }
 
-                var wpfView = this.GetWpfTextView(pFrame);
+                var wpfView = this.GetWpfTextView(this.cache[docCookie]);
 
                 if (wpfView != null)
                 {
@@ -118,8 +169,6 @@ namespace ClearlyEditable
                 GeneralOutputPane.Instance.Write(exc.Source);
                 GeneralOutputPane.Instance.Write(exc.StackTrace);
             }
-
-            return VSConstants.S_OK;
         }
 
         public int OnAfterDocumentWindowHide(uint docCookie, IVsWindowFrame pFrame)

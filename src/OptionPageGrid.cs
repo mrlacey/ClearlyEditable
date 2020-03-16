@@ -51,7 +51,11 @@ namespace ClearlyEditable
 
         protected override void OnClosed(EventArgs e)
         {
-            // TODO: refresh any open documents
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            // Make sure any open documents are updated to reflect any changes to options.
+            MyRunningDocTableEvents.Instance.RefreshAll();
+
             base.OnClosed(e);
         }
     }

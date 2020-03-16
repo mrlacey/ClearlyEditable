@@ -38,8 +38,10 @@ namespace ClearlyEditable
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            // TODO: force refresh of background colors when package loads
             await this.SetUpRunningDocumentTableEventsAsync(cancellationToken).ConfigureAwait(false);
+
+            // Make sure any documents opened before the package loads are colored correctly;
+            MyRunningDocTableEvents.Instance.RefreshAll();
         }
 
         private async Task SetUpRunningDocumentTableEventsAsync(CancellationToken cancellationToken)
@@ -51,9 +53,9 @@ namespace ClearlyEditable
             var componentModel = GetGlobalService(typeof(SComponentModel)) as IComponentModel;
             var editorFactory = componentModel.GetService<IVsEditorAdaptersFactoryService>();
 
-            var plugin = new MyRunningDocTableEvents(this, runningDocumentTable, editorFactory);
+            MyRunningDocTableEvents.Instance.Initialize(this, runningDocumentTable, editorFactory);
 
-            runningDocumentTable.Advise(plugin);
+            runningDocumentTable.Advise(MyRunningDocTableEvents.Instance);
         }
     }
 }
