@@ -46,7 +46,6 @@ namespace ClearlyEditable
 
         protected override void OnApply(PageApplyEventArgs e)
         {
-            // TODO: refresh any open documents
             base.OnApply(e);
         }
 

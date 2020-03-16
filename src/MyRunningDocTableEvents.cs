@@ -45,11 +45,10 @@ namespace ClearlyEditable
 
         public int OnBeforeDocumentWindowShow(uint docCookie, int fFirstShow, IVsWindowFrame pFrame)
         {
-            // TODO: remove any background if anything switched to disabled
+            SolidColorBrush bg = null;
+
             if (this.package.Options.IsEnabled)
             {
-                SolidColorBrush bg = null;
-
                 var documentInfo = this.runningDocumentTable.GetDocumentInfo(docCookie);
 
                 var documentPath = documentInfo.Moniker;
@@ -88,15 +87,19 @@ namespace ClearlyEditable
                             ColorHelpers.RationalizeOpacity(this.package.Options.ReadOnlyOpacity));
                     }
                 }
+            }
 
-                if (bg != null)
+            var wpfView = this.GetWpfTextView(pFrame);
+
+            if (wpfView != null)
+            {
+                if (bg == null)
                 {
-                    var wpfView = this.GetWpfTextView(pFrame);
-
-                    if (wpfView != null)
-                    {
-                        wpfView.Background = bg;
-                    }
+                    wpfView.Background = new SolidColorBrush(Colors.Transparent);
+                }
+                else
+                {
+                    wpfView.Background = bg;
                 }
             }
 
