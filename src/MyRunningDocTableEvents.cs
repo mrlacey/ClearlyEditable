@@ -149,7 +149,20 @@ namespace ClearlyEditable
                     }
                 }
 
-                var wpfView = this.GetWpfTextView(this.cache[docCookie]);
+                IWpfTextView wpfView = null;
+
+                try
+                {
+                    wpfView = this.GetWpfTextView(this.cache[docCookie]);
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception exc)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    // The cached IVsWindowFrame instances aren't long lasting and so may not be usable.
+                    // If can't get the WpfTextView don't worry. Will likely get an updated frame soon.
+                    System.Diagnostics.Debug.WriteLine(exc);
+                }
 
                 if (wpfView != null)
                 {
