@@ -106,6 +106,11 @@ namespace ClearlyEditable
 
                     var documentPath = documentInfo.Moniker;
 
+                    if (!this.package.Options.FileExtensionList.Contains(System.IO.Path.GetExtension(documentPath)))
+                    {
+                        return;
+                    }
+
                     if (this.package.Options.GeneratedEnabled)
                     {
                         var isGenerated = false;
@@ -116,15 +121,29 @@ namespace ClearlyEditable
                         }
                         else
                         {
-                            var fileContent = System.IO.File.ReadAllText(documentPath);
-
-                            foreach (var identifier in this.package.Options.GenIndicatorList)
+                            try
                             {
-                                if (fileContent.Contains(identifier))
+                                // File may be generated in a temporary location or in memory and so not be accessible.
+                                if (System.IO.File.Exists(documentPath))
                                 {
-                                    isGenerated = true;
-                                    break;
+                                    var fileContent = System.IO.File.ReadAllText(documentPath);
+
+                                    foreach (var identifier in this.package.Options.GenIndicatorList)
+                                    {
+                                        if (fileContent.Contains(identifier))
+                                        {
+                                            isGenerated = true;
+                                            break;
+                                        }
+                                    }
                                 }
+                            }
+#pragma warning disable CA1031 // Do not catch general exception types
+                            catch (Exception exc)
+#pragma warning restore CA1031 // Do not catch general exception types
+                            {
+                                // Because working with the file-system can be tricky.
+                                System.Diagnostics.Debug.WriteLine(exc);
                             }
                         }
 
@@ -138,6 +157,8 @@ namespace ClearlyEditable
 
                     if (bg == null && this.package.Options.ReadOnlyEnabled)
                     {
+                        // Internally the editor already knows if this file is read-only but no supported way of knowing from an extension is provided.
+                        // So, need to look up read-only status directly
                         var fileInfo = new System.IO.FileInfo(documentPath);
 
                         if (fileInfo.IsReadOnly)

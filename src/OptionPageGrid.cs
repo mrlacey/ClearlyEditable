@@ -16,6 +16,11 @@ namespace ClearlyEditable
         [Description("Enable/disable all functionality.")]
         public bool IsEnabled { get; set; } = true;
 
+        [Category("General")]
+        [DisplayName("Extensions of interest")]
+        [Description("Comma-delimited list of file extentions to receive editing indication.")]
+        public string FileExtensions { get; set; } = ".cs,.vb,.cpp,.fs,.js";
+
         [Category("ReadOnly files")]
         [DisplayName("Enabled")]
         [Description("Enable/disable changing the color of ReadOnly files.")]
@@ -58,6 +63,14 @@ namespace ClearlyEditable
                 return this.GenerationIndicators.Split(
                     new[] { '|' },
                     StringSplitOptions.RemoveEmptyEntries).ToList();
+            }
+        }
+
+        public List<string> FileExtensionList
+        {
+            get
+            {
+                return this.FileExtensions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(p => p.Trim()).ToList();
             }
         }
 
