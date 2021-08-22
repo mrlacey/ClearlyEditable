@@ -17,7 +17,7 @@ namespace ClearlyEditable
     [ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(ClearlyEditablePackage.PackageGuidString)]
-    [InstalledProductRegistration("#110", "#112", "2.1", IconResourceID = 400)] // Info on this package for Help/About
+    [InstalledProductRegistration("#110", "#112", "2.1.1", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideOptionPage(typeof(OptionPageGrid), "Clearly Editable", "General", 0, 0, true)]
     [ProvideProfileAttribute(typeof(OptionPageGrid), "Clearly Editable", "General", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
     public sealed class ClearlyEditablePackage : AsyncPackage
