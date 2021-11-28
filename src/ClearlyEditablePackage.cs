@@ -42,6 +42,8 @@ namespace ClearlyEditable
 
             // Make sure any documents opened before the package loads are colored correctly;
             MyRunningDocTableEvents.Instance.RefreshAll();
+
+            await SponsorRequestHelper.CheckIfNeedToShowAsync().ConfigureAwait(false);
         }
 
         private async Task SetUpRunningDocumentTableEventsAsync(CancellationToken cancellationToken)

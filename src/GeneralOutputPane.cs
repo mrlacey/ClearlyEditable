@@ -51,5 +51,12 @@ namespace ClearlyEditable
 
             this.generalPane?.OutputString($"Clearly Editable - {message}{Environment.NewLine}");
         }
+
+        public void WriteLine(string message)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            this.generalPane?.OutputString($"{message}{Environment.NewLine}");
+        }
     }
 }
