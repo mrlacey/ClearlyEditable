@@ -1,6 +1,6 @@
 # Clearly Editable
 
-A Visual Studio 2019 extension to change the editor background color to show which documents can't or shouldn't be edited.
+A Visual Studio [2019](https://marketplace.visualstudio.com/items?itemName=MattLaceyLtd.ClearlyEditable2019) & [2022](https://marketplace.visualstudio.com/items?itemName=MattLaceyLtd.ClearlyEditable) extension to change the editor background color to show which documents can't or shouldn't be edited.
 
 ![Example of the backgrounds set on different editor windows](./assets/example.png)
 

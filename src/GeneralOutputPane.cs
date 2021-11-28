@@ -49,14 +49,14 @@ namespace ClearlyEditable
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            this.generalPane?.OutputString($"Clearly Editable - {message}{Environment.NewLine}");
+            this.generalPane?.OutputStringThreadSafe($"Clearly Editable - {message}{Environment.NewLine}");
         }
 
         public void WriteLine(string message)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            this.generalPane?.OutputString($"{message}{Environment.NewLine}");
+            this.generalPane?.OutputStringThreadSafe($"{message}{Environment.NewLine}");
         }
     }
 }
