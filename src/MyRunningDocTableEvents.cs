@@ -16,10 +16,10 @@ namespace ClearlyEditable
     {
         private static MyRunningDocTableEvents instance;
 
+        private readonly Dictionary<uint, IVsWindowFrame> cache = new Dictionary<uint, IVsWindowFrame>();
         private ClearlyEditablePackage package;
         private RunningDocumentTable runningDocumentTable;
         private IVsEditorAdaptersFactoryService editorAdaptersFactory;
-        private Dictionary<uint, IVsWindowFrame> cache = new Dictionary<uint, IVsWindowFrame>();
 
         public MyRunningDocTableEvents()
         {
@@ -166,6 +166,16 @@ namespace ClearlyEditable
                             bg = ColorHelpers.GetColorBrush(
                                 this.package.Options.ReadOnlyColor,
                                 ColorHelpers.RationalizeOpacity(this.package.Options.ReadOnlyOpacity));
+                        }
+                    }
+
+                    if (bg == null && this.package.Options.TempEnabled)
+                    {
+                        if (documentPath.ContainsAnyOf("/temp/", "\\temp\\", "/tmp/", "\\tmp\\"))
+                        {
+                            bg = ColorHelpers.GetColorBrush(
+                                this.package.Options.TempColor,
+                                ColorHelpers.RationalizeOpacity(this.package.Options.TempOpacity));
                         }
                     }
                 }
