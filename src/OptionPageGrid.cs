@@ -71,6 +71,21 @@ namespace ClearlyEditable
         [Description("The opacity of the background (as a percentage)")]
         public int TempOpacity { get; set; } = 10;
 
+        [Category("Linked files")]
+        [DisplayName("Enabled")]
+        [Description("Enable/disable changing the color of linked files.")]
+        public bool LinkEnabled { get; set; } = true;
+
+        [Category("Linked files")]
+        [DisplayName("Background Color")]
+        [Description("The color to use for the editor's background. Can be a named value or Hex (e.g. '#FF00FF')")]
+        public string LinkColor { get; set; } = "LightBlue";
+
+        [Category("Linked files")]
+        [DisplayName("Background Opacity %")]
+        [Description("The opacity of the background (as a percentage)")]
+        public int LinkOpacity { get; set; } = 15;
+
         public List<string> GenIndicatorList
         {
             get
