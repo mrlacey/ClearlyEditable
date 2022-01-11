@@ -7,6 +7,6 @@ A Visual Studio [2019](https://marketplace.visualstudio.com/items?itemName=MattL
 In the above, the left-most editor window is a generated file, the middle editor window is a read-only document, and the editor on the right is for a regular, editable file.
 
 ---
-You chose the background colors (including transparency) for files that are generated, read-only, or in a temporary directory.
+You chose the background colors (including transparency) for files that are generated, read-only, linked, or in a temporary directory.
 
 ![Options window](./assets/options.png)

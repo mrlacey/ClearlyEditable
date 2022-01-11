@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 
 namespace ClearlyEditable
 {
@@ -14,11 +15,15 @@ namespace ClearlyEditable
             {
                 if (new Random().Next(1, 10) == 2)
                 {
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
                     ShowThanksForSponsorshipMessage();
                 }
             }
             else
             {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
                 ShowPromptForSponsorship();
             }
         }
@@ -33,7 +38,7 @@ namespace ClearlyEditable
 
         private static void ShowPromptForSponsorship()
         {
-            GeneralOutputPane.Instance.WriteLine("Sorry to interrupt. I know your time is busy, presumably that's why you installed this extension.");
+            GeneralOutputPane.Instance.WriteLine("Sorry to interrupt. I know your time is busy, presumably that's why you installed this extension (Clearly Editable).");
             GeneralOutputPane.Instance.WriteLine("I'm happy that the extensions I've created have been able to help you and many others");
             GeneralOutputPane.Instance.WriteLine("but I also need to make a living, and two years without work and extended periods of illness have been a challenge. - I didn't qualify for any government support either. :(");
             GeneralOutputPane.Instance.WriteLine(string.Empty);

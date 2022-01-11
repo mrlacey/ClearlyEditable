@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
@@ -138,9 +140,7 @@ namespace ClearlyEditable
                                     }
                                 }
                             }
-#pragma warning disable CA1031 // Do not catch general exception types
                             catch (Exception exc)
-#pragma warning restore CA1031 // Do not catch general exception types
                             {
                                 // Because working with the file-system can be tricky.
                                 System.Diagnostics.Debug.WriteLine(exc);
@@ -178,6 +178,20 @@ namespace ClearlyEditable
                                 ColorHelpers.RationalizeOpacity(this.package.Options.TempOpacity));
                         }
                     }
+
+                    if (bg == null && this.package.Options.LinkEnabled)
+                    {
+                        var dte2 = (DTE2)Package.GetGlobalService(typeof(DTE));
+                        var projItem = dte2.Solution.FindProjectItem(documentPath);
+                        var linkProperty = projItem.Properties.Item("IsLink");
+
+                        if (linkProperty != null && (bool)linkProperty.Value == true)
+                        {
+                            bg = ColorHelpers.GetColorBrush(
+                                this.package.Options.LinkColor,
+                                ColorHelpers.RationalizeOpacity(this.package.Options.LinkOpacity));
+                        }
+                    }
                 }
 
                 IWpfTextView wpfView = null;
@@ -186,9 +200,7 @@ namespace ClearlyEditable
                 {
                     wpfView = this.GetWpfTextView(this.cache[docCookie]);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exc)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     // The cached IVsWindowFrame instances aren't long lasting and so may not be usable.
                     // If can't get the WpfTextView don't worry. Will likely get an updated frame soon.
@@ -210,9 +222,7 @@ namespace ClearlyEditable
                     }
                 }
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (System.Exception exc)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
