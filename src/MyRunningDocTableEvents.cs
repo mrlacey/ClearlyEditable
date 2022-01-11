@@ -140,9 +140,7 @@ namespace ClearlyEditable
                                     }
                                 }
                             }
-#pragma warning disable CA1031 // Do not catch general exception types
                             catch (Exception exc)
-#pragma warning restore CA1031 // Do not catch general exception types
                             {
                                 // Because working with the file-system can be tricky.
                                 System.Diagnostics.Debug.WriteLine(exc);
@@ -202,9 +200,7 @@ namespace ClearlyEditable
                 {
                     wpfView = this.GetWpfTextView(this.cache[docCookie]);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exc)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     // The cached IVsWindowFrame instances aren't long lasting and so may not be usable.
                     // If can't get the WpfTextView don't worry. Will likely get an updated frame soon.
@@ -226,9 +222,7 @@ namespace ClearlyEditable
                     }
                 }
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (System.Exception exc)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
