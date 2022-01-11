@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 
 namespace ClearlyEditable
 {
@@ -14,11 +15,15 @@ namespace ClearlyEditable
             {
                 if (new Random().Next(1, 10) == 2)
                 {
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
                     ShowThanksForSponsorshipMessage();
                 }
             }
             else
             {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
                 ShowPromptForSponsorship();
             }
         }
