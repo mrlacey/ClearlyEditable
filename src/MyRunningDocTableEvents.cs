@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
@@ -166,6 +168,30 @@ namespace ClearlyEditable
                             bg = ColorHelpers.GetColorBrush(
                                 this.package.Options.ReadOnlyColor,
                                 ColorHelpers.RationalizeOpacity(this.package.Options.ReadOnlyOpacity));
+                        }
+                    }
+
+                    if (bg == null && this.package.Options.TempEnabled)
+                    {
+                        if (documentPath.ContainsAnyOf("/temp/", "\\temp\\", "/tmp/", "\\tmp\\"))
+                        {
+                            bg = ColorHelpers.GetColorBrush(
+                                this.package.Options.TempColor,
+                                ColorHelpers.RationalizeOpacity(this.package.Options.TempOpacity));
+                        }
+                    }
+
+                    if (bg == null && this.package.Options.LinkEnabled)
+                    {
+                        var dte2 = (DTE2)Package.GetGlobalService(typeof(DTE));
+                        var projItem = dte2.Solution.FindProjectItem(documentPath);
+                        var linkProperty = projItem.Properties.Item("IsLink");
+
+                        if (linkProperty != null && (bool)linkProperty.Value == true)
+                        {
+                            bg = ColorHelpers.GetColorBrush(
+                                this.package.Options.LinkColor,
+                                ColorHelpers.RationalizeOpacity(this.package.Options.LinkOpacity));
                         }
                     }
                 }
