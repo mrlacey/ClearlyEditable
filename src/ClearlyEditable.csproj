@@ -111,7 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClearlyEditable.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
