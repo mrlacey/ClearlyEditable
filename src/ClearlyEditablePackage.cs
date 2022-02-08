@@ -17,9 +17,9 @@ namespace ClearlyEditable
     [ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(ClearlyEditablePackage.PackageGuidString)]
-    [InstalledProductRegistration("#110", "#112", "2.4", IconResourceID = 400)] // Info on this package for Help/About
-    [ProvideOptionPage(typeof(OptionPageGrid), "Clearly Editable", "General", 0, 0, true)]
-    [ProvideProfileAttribute(typeof(OptionPageGrid), "Clearly Editable", "General", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
+    [InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Version)] // Info on this package for Help/About
+    [ProvideOptionPage(typeof(OptionPageGrid), Vsix.Name, "General", 0, 0, true)]
+    [ProvideProfileAttribute(typeof(OptionPageGrid), Vsix.Name, "General", 106, 107, isToolsOptionPage: true)]
     public sealed class ClearlyEditablePackage : AsyncPackage
     {
         public const string PackageGuidString = "aaa6f2f0-3c79-4d1f-95e4-3c868411475f";
