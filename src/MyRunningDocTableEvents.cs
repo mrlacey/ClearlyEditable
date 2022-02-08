@@ -130,6 +130,12 @@ namespace ClearlyEditable
                                 {
                                     var fileContent = System.IO.File.ReadAllText(documentPath);
 
+                                    // Try and avoid false postiives by only looking at the top of the file's contents
+                                    if (fileContent.Length > 400)
+                                    {
+                                        fileContent = fileContent.Substring(0, 400);
+                                    }
+
                                     foreach (var identifier in this.package.Options.GenIndicatorList)
                                     {
                                         if (fileContent.Contains(identifier))
