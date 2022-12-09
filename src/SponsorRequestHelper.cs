@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Matt Lacey Ltd. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.VisualStudio.Shell;
 using System;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 
 namespace ClearlyEditable
 {
