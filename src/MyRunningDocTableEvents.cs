@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using EnvDTE;
 using EnvDTE80;
@@ -19,6 +20,7 @@ namespace ClearlyEditable
         private static MyRunningDocTableEvents instance;
 
         private readonly Dictionary<uint, IVsWindowFrame> cache = new Dictionary<uint, IVsWindowFrame>();
+        private readonly Dictionary<string, uint> fileBeingWatched = new Dictionary<string, uint>();
         private ClearlyEditablePackage package;
         private RunningDocumentTable runningDocumentTable;
         private IVsEditorAdaptersFactoryService editorAdaptersFactory;
@@ -91,6 +93,12 @@ namespace ClearlyEditable
                 this.cache[docCookie] = pFrame;
             }
 
+            if (!fileBeingWatched.ContainsValue(docCookie))
+            {
+                // TODO: start watching the file
+
+            }
+
             this.RefreshWindow(docCookie);
 
             return VSConstants.S_OK;
@@ -102,18 +110,28 @@ namespace ClearlyEditable
             SolidColorBrush bg = null;
             try
             {
-                if (this.package.Options.IsEnabled)
+                if (this.package?.Options?.IsEnabled ?? false)
                 {
-                    var documentInfo = this.runningDocumentTable.GetDocumentInfo(docCookie);
+                    var documentInfo = this.runningDocumentTable?.GetDocumentInfo(docCookie);
 
-                    var documentPath = documentInfo.Moniker;
-
-                    if (!this.package.Options.FileExtensionList.Contains(System.IO.Path.GetExtension(documentPath)))
+                    if (documentInfo == null)
                     {
                         return;
                     }
 
-                    if (this.package.Options.GeneratedEnabled)
+                    var documentPath = documentInfo?.Moniker;
+
+                    if (documentPath == null)
+                    {
+                        return;
+                    }
+
+                    if (!this.package?.Options?.FileExtensionList.Contains(System.IO.Path.GetExtension(documentPath)) ?? false)
+                    {
+                        return;
+                    }
+
+                    if (this.package?.Options?.GeneratedEnabled ?? false)
                     {
                         var isGenerated = false;
 
@@ -130,18 +148,22 @@ namespace ClearlyEditable
                                 {
                                     var fileContent = System.IO.File.ReadAllText(documentPath);
 
-                                    // Try and avoid false postiives by only looking at the top of the file's contents
-                                    if (fileContent.Length > 400)
+                                    if (fileContent != null)
                                     {
-                                        fileContent = fileContent.Substring(0, 400);
-                                    }
 
-                                    foreach (var identifier in this.package.Options.GenIndicatorList)
-                                    {
-                                        if (fileContent.Contains(identifier))
+                                        // Try and avoid false positives by only looking at the top of the file's contents
+                                        if (fileContent.Length > 400)
                                         {
-                                            isGenerated = true;
-                                            break;
+                                            fileContent = fileContent.Substring(0, 400);
+                                        }
+
+                                        foreach (var identifier in this.package?.Options?.GenIndicatorList)
+                                        {
+                                            if (fileContent.Contains(identifier))
+                                            {
+                                                isGenerated = true;
+                                                break;
+                                            }
                                         }
                                     }
                                 }
@@ -161,13 +183,13 @@ namespace ClearlyEditable
                         }
                     }
 
-                    if (bg == null && this.package.Options.ReadOnlyEnabled)
+                    if (bg == null && (this.package?.Options?.ReadOnlyEnabled ?? false))
                     {
                         // Internally the editor already knows if this file is read-only but no supported way of knowing from an extension is provided.
                         // So, need to look up read-only status directly
                         var fileInfo = new System.IO.FileInfo(documentPath);
 
-                        if (fileInfo.IsReadOnly)
+                        if (fileInfo?.IsReadOnly ?? false)
                         {
                             bg = ColorHelpers.GetColorBrush(
                                 this.package.Options.ReadOnlyColor,
@@ -175,7 +197,7 @@ namespace ClearlyEditable
                         }
                     }
 
-                    if (bg == null && this.package.Options.TempEnabled)
+                    if (bg == null && (this.package?.Options?.TempEnabled ?? false))
                     {
                         if (documentPath.ContainsAnyOf("/temp/", "\\temp\\", "/tmp/", "\\tmp\\"))
                         {
@@ -185,7 +207,7 @@ namespace ClearlyEditable
                         }
                     }
 
-                    if (bg == null && this.package.Options.LinkEnabled)
+                    if (bg == null && (this.package?.Options?.LinkEnabled ?? false))
                     {
                         var dte2 = (DTE2)Package.GetGlobalService(typeof(DTE));
                         var projItem = dte2.Solution.FindProjectItem(documentPath);
@@ -232,6 +254,8 @@ namespace ClearlyEditable
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
+                // TODO: investigate what coudl be causing 'Object reference not set to an instance of an object.' when looking at RXT.sln
+
                 GeneralOutputPane.Instance.Write(exc.Message);
                 GeneralOutputPane.Instance.Write(exc.Source);
                 GeneralOutputPane.Instance.Write(exc.StackTrace);
@@ -240,6 +264,12 @@ namespace ClearlyEditable
 
         public int OnAfterDocumentWindowHide(uint docCookie, IVsWindowFrame pFrame)
         {
+            if (this.fileBeingWatched.ContainsValue(docCookie))
+            {
+                // TODO: stop watching that file
+                this.fileBeingWatched.Remove(this.fileBeingWatched.First(f => f.Value == docCookie).Key);
+            }
+
             return VSConstants.S_OK;
         }
 
