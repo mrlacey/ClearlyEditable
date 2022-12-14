@@ -254,8 +254,6 @@ namespace ClearlyEditable
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
-                // TODO: investigate what coudl be causing 'Object reference not set to an instance of an object.' when looking at RXT.sln
-
                 GeneralOutputPane.Instance.Write(exc.Message);
                 GeneralOutputPane.Instance.Write(exc.Source);
                 GeneralOutputPane.Instance.Write(exc.StackTrace);
