@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="ClearlyEditable.d69d322e-f85a-47be-ac01-3d8f823db795" Version="2.6" Language="en-US" Publisher="Matt Lacey" />
+        <Identity Id="ClearlyEditable.d69d322e-f85a-47be-ac01-3d8f823db795" Version="2.7" Language="en-US" Publisher="Matt Lacey" />
         <DisplayName>Clearly Editable</DisplayName>
         <Description xml:space="preserve">Change the editor background color to show which documents can't or shouldn't be edited.</Description>
         <MoreInfo>https://github.com/mrlacey/ClearlyEditable</MoreInfo>
