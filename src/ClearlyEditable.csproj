@@ -46,11 +46,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ColorHelpers.cs" />
-    <Compile Include="GeneralOutputPane.cs" />
     <Compile Include="MyRunningDocTableEvents.cs" />
     <Compile Include="OptionPageGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="OutputPane.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClearlyEditablePackage.cs" />
     <Compile Include="source.extension.cs">
