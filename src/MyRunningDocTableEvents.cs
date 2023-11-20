@@ -254,9 +254,9 @@ namespace ClearlyEditable
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
-                GeneralOutputPane.Instance.Write(exc.Message);
-                GeneralOutputPane.Instance.Write(exc.Source);
-                GeneralOutputPane.Instance.Write(exc.StackTrace);
+                OutputPane.Instance.Write(exc.Message);
+                OutputPane.Instance.Write(exc.Source);
+                OutputPane.Instance.Write(exc.StackTrace);
             }
         }
 

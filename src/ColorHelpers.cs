@@ -47,7 +47,7 @@ namespace ClearlyEditable
 #pragma warning restore CA1031 // Do not catch general exception types
             {
                 Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-                GeneralOutputPane.Instance.Write($"Unable to translate '{color}' into a color.");
+                OutputPane.Instance.Write($"Unable to translate '{color}' into a color.");
 
                 parsedColor = Colors.Transparent;
             }
