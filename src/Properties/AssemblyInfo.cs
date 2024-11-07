@@ -14,7 +14,7 @@ using ClearlyEditable;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Matt Lacey Ltd.")]
 [assembly: AssemblyProduct(Vsix.Name)]
-[assembly: AssemblyCopyright("2022 Matt Lacey Ltd.")]
+[assembly: AssemblyCopyright("2024 Matt Lacey Ltd.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
