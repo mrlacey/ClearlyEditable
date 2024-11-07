@@ -5,6 +5,7 @@
         <DisplayName>Clearly Editable</DisplayName>
         <Description xml:space="preserve">Change the editor background color to show which documents can't or shouldn't be edited.</Description>
         <MoreInfo>https://github.com/mrlacey/ClearlyEditable</MoreInfo>
+        <License>LICENSE.txt</License>
         <Icon>ClearlyEditable.png</Icon>
         <Tags>editor</Tags>
     </Metadata>
