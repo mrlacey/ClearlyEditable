@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
+using WpfColorHelper;
 
 namespace ClearlyEditable
 {
@@ -177,9 +178,9 @@ namespace ClearlyEditable
 
 						if (isGenerated)
 						{
-							bg = ColorHelpers.GetColorBrush(
+							bg = ColorHelper.GetColorBrush(
 								this.package.Options.GeneratedColor,
-								ColorHelpers.RationalizeOpacity(this.package.Options.GeneratedOpacity));
+								ColorHelper.RationalizeOpacity(this.package.Options.GeneratedOpacity));
 						}
 					}
 
@@ -191,9 +192,9 @@ namespace ClearlyEditable
 
 						if (fileInfo?.IsReadOnly ?? false)
 						{
-							bg = ColorHelpers.GetColorBrush(
+							bg = ColorHelper.GetColorBrush(
 								this.package.Options.ReadOnlyColor,
-								ColorHelpers.RationalizeOpacity(this.package.Options.ReadOnlyOpacity));
+								ColorHelper.RationalizeOpacity(this.package.Options.ReadOnlyOpacity));
 						}
 					}
 
@@ -201,9 +202,9 @@ namespace ClearlyEditable
 					{
 						if (documentPath.ContainsAnyOf("/temp/", "\\temp\\", "/tmp/", "\\tmp\\"))
 						{
-							bg = ColorHelpers.GetColorBrush(
+							bg = ColorHelper.GetColorBrush(
 								this.package.Options.TempColor,
-								ColorHelpers.RationalizeOpacity(this.package.Options.TempOpacity));
+								ColorHelper.RationalizeOpacity(this.package.Options.TempOpacity));
 						}
 					}
 
@@ -215,9 +216,9 @@ namespace ClearlyEditable
 
 						if (linkProperty != null && (bool)linkProperty.Value == true)
 						{
-							bg = ColorHelpers.GetColorBrush(
+							bg = ColorHelper.GetColorBrush(
 								this.package.Options.LinkColor,
-								ColorHelpers.RationalizeOpacity(this.package.Options.LinkOpacity));
+								ColorHelper.RationalizeOpacity(this.package.Options.LinkOpacity));
 						}
 					}
 				}
