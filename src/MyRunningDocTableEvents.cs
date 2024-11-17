@@ -21,7 +21,6 @@ namespace ClearlyEditable
 		private static MyRunningDocTableEvents instance;
 
 		private readonly Dictionary<uint, IVsWindowFrame> cache = new Dictionary<uint, IVsWindowFrame>();
-		private readonly Dictionary<string, uint> fileBeingWatched = new Dictionary<string, uint>();
 		private ClearlyEditablePackage package;
 		private RunningDocumentTable runningDocumentTable;
 		private IVsEditorAdaptersFactoryService editorAdaptersFactory;
@@ -62,11 +61,18 @@ namespace ClearlyEditable
 
 		public int OnAfterSave(uint docCookie)
 		{
+			// Ensure coloring is up to date after save.
+			// This is an extra fallback if background readonly change wasn't already detected.
+			this.RefreshWindow(docCookie);
+
 			return VSConstants.S_OK;
 		}
 
 		public int OnAfterAttributeChange(uint docCookie, uint grfAttribs)
 		{
+			// Ensure coloring is up to date after any change. (e.g. background readonly change.)
+			this.RefreshWindow(docCookie);
+
 			return VSConstants.S_OK;
 		}
 
@@ -92,12 +98,6 @@ namespace ClearlyEditable
 			else
 			{
 				this.cache[docCookie] = pFrame;
-			}
-
-			if (!fileBeingWatched.ContainsValue(docCookie))
-			{
-				// TODO: start watching the file
-
 			}
 
 			this.RefreshWindow(docCookie);
@@ -263,12 +263,6 @@ namespace ClearlyEditable
 
 		public int OnAfterDocumentWindowHide(uint docCookie, IVsWindowFrame pFrame)
 		{
-			if (this.fileBeingWatched.ContainsValue(docCookie))
-			{
-				// TODO: stop watching that file
-				this.fileBeingWatched.Remove(this.fileBeingWatched.First(f => f.Value == docCookie).Key);
-			}
-
 			return VSConstants.S_OK;
 		}
 
