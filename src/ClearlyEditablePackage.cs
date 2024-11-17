@@ -79,7 +79,7 @@ namespace ClearlyEditable
 			catch (Exception exc)
 			{
 				System.Diagnostics.Debug.WriteLine(exc);
-				throw;
+				OutputPane.Instance.WriteLine("Error tracking usage analytics: " + exc.Message);
 			}
 #endif
 		}
