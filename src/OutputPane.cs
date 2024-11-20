@@ -45,13 +45,6 @@ namespace ClearlyEditable
 			this.pane?.Activate();
 		}
 
-		public void Write(string message)
-		{
-			ThreadHelper.ThrowIfNotOnUIThread();
-
-			this.pane?.OutputStringThreadSafe(message);
-		}
-
 		public void WriteLine(string message)
 		{
 			ThreadHelper.ThrowIfNotOnUIThread();
