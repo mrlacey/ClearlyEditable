@@ -11,7 +11,7 @@ namespace ClearlyEditable
         public const string Name = "Clearly Editable";
         public const string Description = @"Change the editor background color to show which documents can't or shouldn't be edited.";
         public const string Language = "en-US";
-        public const string Version = "2.8.3";
+        public const string Version = "2.8.4";
         public const string Author = "Matt Lacey";
         public const string Tags = "editor";
     }
