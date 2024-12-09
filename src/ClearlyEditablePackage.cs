@@ -72,6 +72,8 @@ namespace ClearlyEditable
 				{
 					{ "VsixVersion", Vsix.Version },
 					{ "VsVersion", Microsoft.VisualStudio.Telemetry.TelemetryService.DefaultSession?.GetSharedProperty("VS.Core.ExeVersion") },
+					{ "Architecture", RuntimeInformation.ProcessArchitecture.ToString() },
+					{ "MsInternal", Microsoft.VisualStudio.Telemetry.TelemetryService.DefaultSession?.IsUserMicrosoftInternal.ToString() },
 				};
 
 				client.TrackEvent(Vsix.Name, properties);
