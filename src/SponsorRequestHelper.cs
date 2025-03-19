@@ -61,7 +61,7 @@ namespace ClearlyEditable
 			 OutputPane.Instance.WriteLine("");
 			 OutputPane.Instance.WriteLine("");
 			 OutputPane.Instance.WriteLine("If you can't afford to support financially, you can always");
-			 OutputPane.Instance.WriteLine("leave a positive review at https://marketplace.visualstudio.com/items?itemName=MattLaceyLtd.BuildTimerHistory&ssr=false#review-details");
+			 OutputPane.Instance.WriteLine("leave a positive review at https://marketplace.visualstudio.com/items?itemName=MattLaceyLtd.ClearlyEditable&ssr=false#review-details");
 			 OutputPane.Instance.WriteLine("");
 			 OutputPane.Instance.WriteLine("********************************************************************************************************");
 
