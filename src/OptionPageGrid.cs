@@ -18,7 +18,7 @@ namespace ClearlyEditable
 
 		[Category("General")]
 		[DisplayName("Extensions of interest")]
-		[Description("Comma-delimited list of file extentions to receive editing indication.")]
+		[Description("Comma-delimited list of file extensions to receive editing indication.")]
 		public string FileExtensions { get; set; } = ".cs,.vb,.cpp,.fs,.js";
 
 		[Category("ReadOnly files")]
