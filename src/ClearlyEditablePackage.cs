@@ -41,6 +41,8 @@ namespace ClearlyEditable
 			// Do any initialization that requires the UI thread after switching to the UI thread.
 			await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
+			OutputPane.Instance.WriteLine($"{Vsix.Name} v{Vsix.Version}");
+
 			await this.SetUpRunningDocumentTableEventsAsync(cancellationToken).ConfigureAwait(false);
 
 			// Make sure any documents opened before the package loads are colored correctly;
